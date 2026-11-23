@@ -41,15 +41,15 @@ const Hero = () => {
               BOOK AN APPOINTMENT
             </Link>
 
-            <a
-              href="services"
+            <Link
+              to="/services"
               className="group flex items-center gap-2 text-sm text-[#30251F]"
             >
               Explore Services
               <span className="transition-transform duration-300 group-hover:translate-x-1">
                 →
               </span>
-            </a>
+            </Link>
 
           </div>
 

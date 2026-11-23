@@ -291,10 +291,6 @@ const Gallery = () => {
                   <h3 className="font-serif text-xl">
                     {item.title}
                   </h3>
-
-                  <span className="text-xs text-[#A17B5B]">
-                    ↗
-                  </span>
                 </div>
 
                 <p className="mt-1 text-[10px] tracking-[0.2em] text-[#76675B]">
@@ -305,9 +301,6 @@ const Gallery = () => {
           </div>
         </div>
 
-        <p className="mt-5 text-center text-[10px] tracking-[0.2em] text-[#A17B5B]">
-          EXPLORE OUR COLLECTION
-        </p>
       </section>
 
       {/* Final CTA */}
@@ -328,7 +321,7 @@ const Gallery = () => {
         </p>
 
         <Link
-          to="/contact"
+          to="/book-appointment"
           className="mt-9 inline-block bg-[#30251F] px-10 py-4 text-[10px] tracking-[0.25em] text-[#F1EAE2] transition duration-300 hover:bg-[#A17B5B]"
         >
           BOOK YOUR APPOINTMENT

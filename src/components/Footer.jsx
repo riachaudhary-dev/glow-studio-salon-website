@@ -26,7 +26,7 @@ const Footer = () => {
                         <div className="mt-6 flex items-center gap-5">
 
                             <a
-                                href="https://www.instagram.com/ch_chetan_bishnoi?fqnt=eDdqYmI2aHJ4ZnE0&utm_source=qr"
+                                href="https://www.instagram.com/username"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="Instagram"
@@ -46,7 +46,7 @@ const Footer = () => {
                             </a>
 
                             <a
-                                href="https://facebook.com/yourusername"
+                                href="https://facebook.com/yourname"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 aria-label="Facebook"
@@ -81,11 +81,33 @@ const Footer = () => {
                         </h3>
 
                         <ul className="space-y-4 text-sm text-[#C9B8A7]">
-                            <li><Link to="/services" className="hover:text-white">Hair Styling</Link></li>
-                            <li><Link to="/services" className="hover:text-white">Skin Care</Link></li>
-                            <li><Link to="/services" className="hover:text-white">Makeup</Link></li>
-                            <li><Link to="/services" className="hover:text-white">Spa & Wellness</Link></li>
-                            <li><Link to="/services" className="hover:text-white">Nail Care</Link></li>
+                            <ul className="space-y-4 text-sm text-[#C9B8A7]">
+                                <li>
+                                    <Link to="/services#hair-services" className="hover:text-white">
+                                        Hair Styling
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/services#skin-and-facial" className="hover:text-white">
+                                        Skin Care
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/services#makeup-services" className="hover:text-white">
+                                        Makeup
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/services#waxing-and-threading" className="hover:text-white">
+                                        Spa & Wellness
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/services#nail-care" className="hover:text-white">
+                                        Nail Care
+                                    </Link>
+                                </li>
+                            </ul>
                         </ul>
                     </div>
 
