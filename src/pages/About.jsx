@@ -7,11 +7,11 @@ const About = () => {
       <div className="mx-auto grid max-w-[1440px] items-center gap-16 md:grid-cols-2 lg:gap-24">
 
         {/* Image */}
-        <div className="relative">
+        <div className="relative glow-image-reveal">
           <img
             src={aboutImage}
             alt="Glow Studio beauty salon"
-            className="h-[450px] w-full object-cover sm:h-[580px]"
+            className="h-[450px] w-full object-cover transition-transform duration-700 hover:scale-[1.02] sm:h-[580px]"
           />
 
           <div className="absolute -bottom-7 -right-5 hidden bg-[#30251F] px-8 py-7 text-[#F1EAE2] sm:block">
@@ -23,7 +23,7 @@ const About = () => {
         </div>
 
         {/* Content */}
-        <div className="py-4">
+        <div className="py-4 glow-fade-up glow-delay-2">
           <p className="mb-6 text-xs tracking-[0.3em] text-[#A17B5B]">
             OUR STORY
           </p>

@@ -1,6 +1,7 @@
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const categories = ["All", "Hair", "Makeup", "Nails", "Skin"];
 
@@ -49,7 +50,7 @@ const galleryItems = [
       "https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=900&q=85",
   },
 
-  // MAKEUP - INCLUDING INDIAN BRIDAL LOOKS
+  // MAKEUP
   {
     id: 7,
     title: "Flawless Makeup",
@@ -152,8 +153,6 @@ const galleryItems = [
     image:
       "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=85",
   },
-  
- 
   {
     id: 21,
     title: "Radiant Skin Care",
@@ -177,8 +176,89 @@ const galleryItems = [
   },
 ];
 
+// ANIMATION VARIANTS
+
+const fadeUpVariants = {
+  hidden: {
+    opacity: 0,
+    y: 25,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: "easeOut",
+    },
+  },
+};
+
+const imageVariants = {
+  hidden: {
+    opacity: 0,
+    scale: 1.08,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 1.3,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+const contentVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      delayChildren: 1.3,
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const galleryCardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: "easeOut",
+    },
+  },
+};
+
+const ctaVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
 const Gallery = () => {
   const [activeCategory, setActiveCategory] = useState("All");
+
+  // Reference for horizontal gallery scrolling
+  const galleryScrollRef = useRef(null);
+
+  // Change category and reset gallery to first image
+  const handleCategoryChange = (category) => {
+    setActiveCategory(category);
+
+    if (galleryScrollRef.current) {
+      galleryScrollRef.current.scrollTo({
+        left: 0,
+        behavior: "smooth",
+      });
+    }
+  };
 
   const filteredItems =
     activeCategory === "All"
@@ -190,42 +270,69 @@ const Gallery = () => {
   return (
     <div className="bg-[#E8DFD3] text-[#30251F]">
 
-      {/* Hero Section */}
+      {/* HERO SECTION */}
       <section className="relative flex min-h-[65vh] items-center justify-center overflow-hidden bg-[#30251F] px-6 text-center">
-        <div
+
+        <motion.div
           className="absolute inset-0 bg-cover bg-center opacity-30"
           style={{
             backgroundImage:
               "url('https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=2000')",
           }}
+          variants={imageVariants}
+          initial="hidden"
+          animate="visible"
         />
 
-        <div className="relative z-10 mx-auto max-w-3xl py-24">
-          <p className="mb-6 text-[10px] tracking-[0.4em] text-[#C19A75]">
+        <motion.div
+          className="relative z-10 mx-auto max-w-3xl py-24"
+          variants={contentVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.p
+            variants={fadeUpVariants}
+            className="mb-6 text-[10px] tracking-[0.4em] text-[#C19A75]"
+          >
             A GLIMPSE OF GLOW STUDIO
-          </p>
+          </motion.p>
 
-          <h1 className="font-serif text-5xl leading-tight text-[#F1EAE2] sm:text-6xl md:text-7xl">
+          <motion.h1
+            variants={fadeUpVariants}
+            className="font-serif text-5xl leading-tight text-[#F1EAE2] sm:text-6xl md:text-7xl"
+          >
             Beauty in
             <br />
             every detail.
-          </h1>
+          </motion.h1>
 
-          <p className="mx-auto mt-7 max-w-xl text-sm leading-7 text-[#D8CABB] sm:text-base">
+          <motion.p
+            variants={fadeUpVariants}
+            className="mx-auto mt-7 max-w-xl text-sm leading-7 text-[#D8CABB] sm:text-base"
+          >
             Explore our world of beauty, creativity and transformation.
             Every detail is thoughtfully crafted to make you feel
             beautiful and confident.
-          </p>
+          </motion.p>
 
-          <div className="mx-auto mt-9 h-px w-16 bg-[#C19A75]" />
-        </div>
+          <motion.div
+            variants={fadeUpVariants}
+            className="mx-auto mt-9 h-px w-16 bg-[#C19A75]"
+          />
+        </motion.div>
       </section>
 
-      {/* Gallery Section */}
+      {/* GALLERY SECTION */}
       <section className="px-6 py-20 md:px-12 lg:px-20 lg:py-28">
 
-        {/* Section Heading */}
-        <div className="mx-auto mb-14 max-w-2xl text-center">
+        {/* SECTION HEADING */}
+        <motion.div
+          className="mx-auto mb-14 max-w-2xl text-center"
+          variants={fadeUpVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+        >
           <p className="mb-4 text-[10px] tracking-[0.35em] text-[#A17B5B]">
             OUR WORK & CREATIVITY
           </p>
@@ -239,14 +346,20 @@ const Gallery = () => {
             bridal looks and elegant nail art, discover the little
             details that make every transformation special.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Category Filters */}
-        <div className="mb-12 flex flex-wrap items-center justify-center gap-3">
+        {/* CATEGORY FILTERS */}
+        <motion.div
+          className="mb-12 flex flex-wrap items-center justify-center gap-3"
+          variants={fadeUpVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+        >
           {categories.map((category) => (
             <button
               key={category}
-              onClick={() => setActiveCategory(category)}
+              onClick={() => handleCategoryChange(category)}
               className={`border px-6 py-3 text-[10px] tracking-[0.2em] transition duration-300 ${
                 activeCategory === category
                   ? "border-[#30251F] bg-[#30251F] text-[#F1EAE2]"
@@ -256,14 +369,21 @@ const Gallery = () => {
               {category.toUpperCase()}
             </button>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Horizontal Scroll Gallery - Hidden Scrollbar */}
-        <div className="overflow-x-auto pb-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        {/* HORIZONTAL SCROLL GALLERY */}
+        <div
+          ref={galleryScrollRef}
+          className="overflow-x-auto pb-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        >
           <div className="flex w-max gap-6">
             {filteredItems.map((item) => (
-              <div
+              <motion.div
                 key={item.id}
+                variants={galleryCardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
                 className="group w-[280px] shrink-0 md:w-[350px]"
               >
                 <div className="relative overflow-hidden bg-[#D8CABB]">
@@ -296,37 +416,54 @@ const Gallery = () => {
                 <p className="mt-1 text-[10px] tracking-[0.2em] text-[#76675B]">
                   {item.category.toUpperCase()}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
 
       </section>
 
-      {/* Final CTA */}
-      <section className="bg-[#F1EAE2] px-6 py-20 text-center md:py-28">
-        <p className="mb-5 text-[10px] tracking-[0.35em] text-[#A17B5B]">
+      {/* FINAL CTA */}
+      <motion.section
+        className="bg-[#F1EAE2] px-6 py-20 text-center md:py-28"
+        variants={ctaVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+      >
+        <motion.p
+          variants={fadeUpVariants}
+          className="mb-5 text-[10px] tracking-[0.35em] text-[#A17B5B]"
+        >
           YOUR BEAUTY STORY STARTS HERE
-        </p>
+        </motion.p>
 
-        <h2 className="mx-auto max-w-2xl font-serif text-4xl leading-tight sm:text-5xl">
+        <motion.h2
+          variants={fadeUpVariants}
+          className="mx-auto max-w-2xl font-serif text-4xl leading-tight sm:text-5xl"
+        >
           Ready for your own
           <br />
           moment of glow?
-        </h2>
+        </motion.h2>
 
-        <p className="mx-auto mt-6 max-w-lg text-sm leading-7 text-[#76675B]">
+        <motion.p
+          variants={fadeUpVariants}
+          className="mx-auto mt-6 max-w-lg text-sm leading-7 text-[#76675B]"
+        >
           Let our team help you look and feel your absolute best.
           Your next beauty experience is just one appointment away.
-        </p>
+        </motion.p>
 
-        <Link
-          to="/book-appointment"
-          className="mt-9 inline-block bg-[#30251F] px-10 py-4 text-[10px] tracking-[0.25em] text-[#F1EAE2] transition duration-300 hover:bg-[#A17B5B]"
-        >
-          BOOK YOUR APPOINTMENT
-        </Link>
-      </section>
+        <motion.div variants={fadeUpVariants}>
+          <Link
+            to="/book-appointment"
+            className="mt-9 inline-block bg-[#30251F] px-10 py-4 text-[10px] tracking-[0.25em] text-[#F1EAE2] transition duration-300 hover:bg-[#A17B5B]"
+          >
+            BOOK YOUR APPOINTMENT
+          </Link>
+        </motion.div>
+      </motion.section>
 
     </div>
   );

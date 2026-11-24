@@ -1,5 +1,6 @@
 
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const services = [
     {
@@ -106,28 +107,120 @@ const services = [
     },
 ];
 
+// Individual text animation
+const textVariants = {
+    hidden: {
+        opacity: 0,
+        y: 25,
+    },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.7,
+            ease: "easeOut",
+        },
+    },
+};
+
+// Sequential content animation
+const contentVariants = {
+    hidden: {},
+    visible: {
+        transition: {
+            delayChildren: 1.4,
+            staggerChildren: 0.2,
+        },
+    },
+};
+
+// Image reveal animation
+const imageVariants = {
+    hidden: {
+        opacity: 0,
+        scale: 1.08,
+    },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: {
+            duration: 1.4,
+            ease: [0.22, 1, 0.36, 1],
+        },
+    },
+};
+
+// Service list animation
+const listVariants = {
+    hidden: {},
+    visible: {
+        transition: {
+            staggerChildren: 0.09,
+        },
+    },
+};
+
 const Services = () => {
     return (
         <div className="bg-[#E8DFD3] text-[#30251F]">
 
-            {/* PAGE INTRODUCTION - NO TOP IMAGE */}
+            {/* PAGE INTRODUCTION */}
             <section className="px-6 pb-16 pt-20 text-center md:px-12 md:pb-20 md:pt-28">
-                <p className="mb-4 text-xs uppercase tracking-[0.35em] text-[#A17B5B]">
+
+                <motion.p
+                    initial="hidden"
+                    animate="visible"
+                    variants={textVariants}
+                    className="mb-4 text-xs uppercase tracking-[0.35em] text-[#A17B5B]"
+                >
                     The Art of Beauty & Care
-                </p>
+                </motion.p>
 
-                <h1 className="font-serif text-4xl leading-tight md:text-6xl">
+                <motion.h1
+                    initial="hidden"
+                    animate="visible"
+                    variants={{
+                        ...textVariants,
+                        visible: {
+                            ...textVariants.visible,
+                            transition: {
+                                ...textVariants.visible.transition,
+                                delay: 0.2,
+                            },
+                        },
+                    }}
+                    className="font-serif text-4xl leading-tight md:text-6xl"
+                >
                     Our Services
-                </h1>
+                </motion.h1>
 
-                <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-[#76675B] md:text-base">
+                <motion.p
+                    initial="hidden"
+                    animate="visible"
+                    variants={{
+                        ...textVariants,
+                        visible: {
+                            ...textVariants.visible,
+                            transition: {
+                                ...textVariants.visible.transition,
+                                delay: 0.4,
+                            },
+                        },
+                    }}
+                    className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-[#76675B] md:text-base"
+                >
                     Discover a world of beauty, relaxation, and self-care.
                     From everyday grooming to special occasion makeovers,
                     we bring together everything you need to look and feel
                     your absolute best.
-                </p>
+                </motion.p>
 
-                <div className="mx-auto mt-8 h-px w-20 bg-[#A17B5B]" />
+                <motion.div
+                    initial={{ opacity: 0, scaleX: 0 }}
+                    animate={{ opacity: 1, scaleX: 1 }}
+                    transition={{ duration: 0.8, delay: 0.7 }}
+                    className="mx-auto mt-8 h-px w-20 bg-[#A17B5B]"
+                />
             </section>
 
             {/* SERVICES */}
@@ -135,62 +228,101 @@ const Services = () => {
                 <div className="mx-auto max-w-7xl space-y-20 md:space-y-28">
 
                     {services.map((service, index) => (
-                        <div
+                        <motion.div
                             id={service.title.toLowerCase().replace(" & ", "-and-").replace(" ", "-")}
                             key={service.number}
-                            className={`grid items-center gap-10 md:grid-cols-2 md:gap-16 ${index % 2 !== 0 ? "md:[&>div:first-child]:order-2" : ""
-                                }`}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{
+                                once: true,
+                                amount: 0.2,
+                            }}
+                            className={`grid items-center gap-10 md:grid-cols-2 md:gap-16 ${
+                                index % 2 !== 0
+                                    ? "md:[&>div:first-child]:order-2"
+                                    : ""
+                            }`}
                         >
 
                             {/* SERVICE IMAGE */}
-                            <div className="group overflow-hidden">
+                            <motion.div
+                                variants={imageVariants}
+                                className="group overflow-hidden"
+                            >
                                 <img
                                     src={service.image}
                                     alt={service.title}
                                     className="h-[350px] w-full object-cover transition duration-700 group-hover:scale-105 md:h-[480px]"
                                 />
-                            </div>
+                            </motion.div>
 
                             {/* SERVICE CONTENT */}
-                            <div className="py-4 md:py-8">
-                                <p className="mb-5 text-xs tracking-[0.3em] text-[#A17B5B]">
+                            <motion.div
+                                variants={contentVariants}
+                                className="py-4 md:py-8"
+                            >
+
+                                <motion.p
+                                    variants={textVariants}
+                                    className="mb-5 text-xs tracking-[0.3em] text-[#A17B5B]"
+                                >
                                     {service.number} / BEAUTY & CARE
-                                </p>
+                                </motion.p>
 
-                                <h2 className="font-serif text-3xl leading-tight md:text-4xl lg:text-5xl">
+                                <motion.h2
+                                    variants={textVariants}
+                                    className="font-serif text-3xl leading-tight md:text-4xl lg:text-5xl"
+                                >
                                     {service.title}
-                                </h2>
+                                </motion.h2>
 
-                                <p className="mt-4 font-serif text-lg italic text-[#A17B5B]">
+                                <motion.p
+                                    variants={textVariants}
+                                    className="mt-4 font-serif text-lg italic text-[#A17B5B]"
+                                >
                                     {service.subtitle}
-                                </p>
+                                </motion.p>
 
-                                <p className="mt-5 text-sm leading-7 text-[#76675B]">
+                                <motion.p
+                                    variants={textVariants}
+                                    className="mt-5 text-sm leading-7 text-[#76675B]"
+                                >
                                     {service.description}
-                                </p>
+                                </motion.p>
 
-                                <div className="my-7 h-px w-full bg-[#CDBEAD]" />
+                                <motion.div
+                                    variants={textVariants}
+                                    className="my-7 h-px w-full bg-[#CDBEAD]"
+                                />
 
-                                <div className="grid grid-cols-2 gap-x-5 gap-y-4">
+                                {/* SERVICE ITEMS */}
+                                <motion.div
+                                    variants={listVariants}
+                                    className="grid grid-cols-2 gap-x-5 gap-y-4"
+                                >
                                     {service.items.map((item) => (
-                                        <div
+                                        <motion.div
                                             key={item}
+                                            variants={textVariants}
                                             className="flex items-start gap-2 text-sm text-[#57483D]"
                                         >
                                             <span className="mt-1 text-[#A17B5B]">✦</span>
                                             <span>{item}</span>
-                                        </div>
+                                        </motion.div>
                                     ))}
-                                </div>
+                                </motion.div>
 
-                                <Link
-                                    to="/contact"
-                                    className="mt-9 inline-flex items-center border-b border-[#A17B5B] pb-2 text-xs uppercase tracking-[0.2em] text-[#30251F] transition hover:text-[#A17B5B]"
-                                >
-                                    Get in Touch <span className="ml-3">→</span>
-                                </Link>
-                            </div>
-                        </div>
+                                <motion.div variants={textVariants}>
+                                    <Link
+                                        to="/contact"
+                                        className="mt-9 inline-flex items-center border-b border-[#A17B5B] pb-2 text-xs uppercase tracking-[0.2em] text-[#30251F] transition hover:text-[#A17B5B]"
+                                    >
+                                        Get in Touch <span className="ml-3">→</span>
+                                    </Link>
+                                </motion.div>
+
+                            </motion.div>
+                        </motion.div>
                     ))}
 
                 </div>
@@ -198,25 +330,45 @@ const Services = () => {
 
             {/* FINAL CTA */}
             <section className="bg-[#30251F] px-6 py-20 text-center text-[#F1EAE2] md:py-28">
-                <p className="mb-4 text-xs uppercase tracking-[0.35em] text-[#C19A75]">
-                    A Little Time For Yourself
-                </p>
 
-                <h2 className="mx-auto max-w-3xl font-serif text-3xl leading-tight md:text-5xl">
-                    Your Beauty Journey Starts Here
-                </h2>
-
-                <p className="mx-auto mt-6 max-w-xl text-sm leading-7 text-[#C9B8A7]">
-                    Take a break from your busy schedule and let us take care
-                    of you. We'd love to welcome you to Glow Studio.
-                </p>
-
-                <Link
-                    to="/book-appointment"
-                    className="mt-9 inline-block border border-[#C19A75] px-9 py-4 text-xs uppercase tracking-[0.2em] text-[#F1EAE2] transition duration-300 hover:bg-[#C19A75] hover:text-[#30251F]"
+                <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.3 }}
+                    variants={contentVariants}
                 >
-                    Book Your Appointment
-                </Link>
+                    <motion.p
+                        variants={textVariants}
+                        className="mb-4 text-xs uppercase tracking-[0.35em] text-[#C19A75]"
+                    >
+                        A Little Time For Yourself
+                    </motion.p>
+
+                    <motion.h2
+                        variants={textVariants}
+                        className="mx-auto max-w-3xl font-serif text-3xl leading-tight md:text-5xl"
+                    >
+                        Your Beauty Journey Starts Here
+                    </motion.h2>
+
+                    <motion.p
+                        variants={textVariants}
+                        className="mx-auto mt-6 max-w-xl text-sm leading-7 text-[#C9B8A7]"
+                    >
+                        Take a break from your busy schedule and let us take care
+                        of you. We'd love to welcome you to Glow Studio.
+                    </motion.p>
+
+                    <motion.div variants={textVariants}>
+                        <Link
+                            to="/book-appointment"
+                            className="mt-9 inline-block border border-[#C19A75] px-9 py-4 text-xs uppercase tracking-[0.2em] text-[#F1EAE2] transition duration-300 hover:bg-[#C19A75] hover:text-[#30251F]"
+                        >
+                            Book Your Appointment
+                        </Link>
+                    </motion.div>
+                </motion.div>
+
             </section>
 
         </div>
